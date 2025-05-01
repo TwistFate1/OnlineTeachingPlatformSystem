@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2025/5/2 0:32:03                             */
+/* Created on:     2025/5/2 2:35:02                             */
 /*==============================================================*/
 
 
@@ -40,6 +40,8 @@ drop table if exists Major;
 
 drop table if exists Member;
 
+drop table if exists Notification;
+
 drop table if exists Participant;
 
 drop table if exists Payment;
@@ -61,6 +63,8 @@ drop table if exists Review;
 drop table if exists School;
 
 drop table if exists Squad;
+
+drop table if exists Status;
 
 drop table if exists Submission;
 
@@ -132,9 +136,9 @@ create table Chapter
 (
    Chapter_Id           int not null,
    Course_Id            int not null,
-   Cha_Chapter_Id       int,
    Chapter_Title        varchar(30) not null,
    Chapter_Order        int not null,
+   Cha_Chapter_Id       int,
    primary key (Chapter_Id)
 );
 
@@ -314,6 +318,19 @@ create table Member
 );
 
 /*==============================================================*/
+/* Table: Notification                                          */
+/*==============================================================*/
+create table Notification
+(
+   Notification_Id      int not null,
+   Course_Id            int not null,
+   Content              varchar(255) not null,
+   Notification_Type    varchar(30) not null,
+   Notification_Time    datetime not null,
+   primary key (Notification_Id)
+);
+
+/*==============================================================*/
 /* Table: Participant                                           */
 /*==============================================================*/
 create table Participant
@@ -451,6 +468,17 @@ create table Squad
 );
 
 /*==============================================================*/
+/* Table: Status                                                */
+/*==============================================================*/
+create table Status
+(
+   Account_Id           int not null,
+   Notification_Id      int not null,
+   Read_Status          bool not null,
+   primary key (Account_Id, Notification_Id)
+);
+
+/*==============================================================*/
 /* Table: Submission                                            */
 /*==============================================================*/
 create table Submission
@@ -573,6 +601,9 @@ alter table Member add constraint FK_Relationship_28 foreign key (Squad_Id)
 alter table Member add constraint FK_Relationship_29 foreign key (Account_Id)
       references Account (Account_Id) on delete restrict on update restrict;
 
+alter table Notification add constraint FK_Relationship_51 foreign key (Course_Id)
+      references Course (Course_Id) on delete restrict on update restrict;
+
 alter table Participant add constraint FK_Relationship_40 foreign key (Live_Id)
       references Live (Live_Id) on delete restrict on update restrict;
 
@@ -605,6 +636,12 @@ alter table Review add constraint FK_Relationship_13 foreign key (Course_Id)
 
 alter table Squad add constraint FK_Relationship_17 foreign key (Course_Id)
       references Course (Course_Id) on delete restrict on update restrict;
+
+alter table Status add constraint FK_Relationship_53 foreign key (Notification_Id)
+      references Notification (Notification_Id) on delete restrict on update restrict;
+
+alter table Status add constraint FK_Relationship_54 foreign key (Account_Id)
+      references Account (Account_Id) on delete restrict on update restrict;
 
 alter table Submission add constraint FK_Relationship_23 foreign key (Homework_Id)
       references Homework (Homework_Id) on delete restrict on update restrict;
