@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2025/5/2 2:35:02                             */
+/* Created on:     2025/5/21 18:12:44                           */
 /*==============================================================*/
 
 
@@ -99,6 +99,7 @@ create table Answer
    Answer_Text          varchar(255) not null,
    Answer_Image_Url     varchar(255) not null,
    Correct              bool not null,
+   Answer_Grade         int not null,
    primary key (Account_Id, Question_Id)
 );
 
@@ -399,6 +400,7 @@ create table Question
    Reference_Answer     varchar(255) not null,
    Reference_Answer_Image_Url varchar(255) not null,
    Question_Order       int not null,
+   Question_Grade       int not null,
    primary key (Question_Id)
 );
 
